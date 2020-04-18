@@ -39,8 +39,13 @@
             "type":"string",
             "metadata":{
                 "description": "Provide Controller VM IP to install ansible"
-            },
-            "defaultValue": "40.117.99.34"
+            }
+        },
+        "remoteVMPassword": {
+            "type":"securestring",
+            "metadata":{
+                "description": "Provide Controller VM IP password."
+            }
         },
         "ubuntuOSVersion": {
             "defaultValue":"16.04.0-LTS",
@@ -60,6 +65,24 @@
                 "description": "The size of the VM (DS1_v2, 1vcpu, 3.5GB)."
             }
         },
+        "databaseServerName": {
+            "type": "string",
+            "metadata": {
+                "description": "Database server name of Remote VM."
+            }
+        },
+        "ServerAdminLoginName": {
+            "type": "string",
+            "metadata": {
+                "description": "Database server Admin login name."
+            }
+        },
+        "ServerAdminLoginPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Database server Admin login Password."
+            }
+        },
         "location": {
             "defaultValue": "East US",
             "type": "String",
@@ -69,18 +92,18 @@
         }
     },
     "variables": {
+        "scriptinput": "[concat(parameters('WordpressRemoteVM'), ' ',parameters('remoteVMPassword'), ' ', parameters('adminUsername'), ' ', parameters('databaseServerName'), ' ', parameters('ServerAdminLoginName'), ' ', parameters('ServerAdminLoginPassword'))]",
         "resourceprefix": "[substring(uniqueString(resourceGroup().id, deployment().name), 3, 6)]",
         "ansibleVmSku": "[parameters('ansibleVmSku')]",
-        "ansibleNicName": "[concat('ansible-vm-nic-',variables('resourceprefix'))]",
-        "ansibleNsgName": "[concat('ansible-vm-nsg-',variables('resourceprefix'))]",
-        "ansibleVnet": "[concat('ansible-vm-vnet-',variables('resourceprefix'))]",
-        "ansibleSubnet": "[concat('ansible-vm-subnet-',variables('resourceprefix'))]",
+        "ansibleNicName": "[concat('ansible-nic-',variables('resourceprefix'))]",
+        "ansibleNsgName": "[concat('ansible-nsg-',variables('resourceprefix'))]",
+        "ansibleVnet": "[concat('ansible-vnet-',variables('resourceprefix'))]",
+        "ansibleSubnet": "[concat('ansible-subnet-',variables('resourceprefix'))]",
         "ansibleVmName": "[concat(parameters('ansibleVmName'),'-',variables('resourceprefix'))]",
-        "publicIpAddressName": "[concat(variables('ansibleVmName'), '-publicIp' )]",
+        "publicIpAddressName": "[concat(parameters('ansibleVmName'), '-publicIp-', variables('resourceprefix'))]",
         "networkInterfaceName": "[variables('ansibleNicName')]",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('ansibleVnet'), variables('ansibleSubnet'))]",
         "osDiskType": "Standard_LRS",
-        
         "subnetAddressPrefix": "172.31.0.0/24",
         "addressPrefix": "172.31.0.0/16",
         "linuxConfiguration": {
@@ -272,7 +295,7 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2018-06-01",
+            "apiVersion": "2017-03-30",
             "name": "[concat(variables('ansibleVmName'),'/','ansibleServer')]",
             "location": "[parameters('location')]",
             "dependsOn": [
@@ -281,13 +304,15 @@
             "properties": {
                 "publisher": "Microsoft.Azure.Extensions",
                 "type": "CustomScript",
-                "typeHandlerVersion": "2.1",
+                "typeHandlerVersion": "2.0",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://github.com/sayosh0512/ansibles-wordpress-script/blob/master/setup_ansible.sh"
-                    ],
-                    "commandToExecute": "[concat('sh setup_ansible.sh ', parameters('WordpressRemoteVM'), parameters('adminPasswordOrKey'))]"
+                        "https://raw.githubusercontent.com/asift91/ansiblewp/master/install_wp.sh"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('bash install_wp.sh ', variables('scriptinput'))]"
                 }
             }
         }
