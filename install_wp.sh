@@ -12,7 +12,7 @@ sudo apt-get install sshpass
 sudo ssh-keygen -t rsa -N '' -f /home/${3}/.ssh/id_rsa <<< y
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  
 sudo chown ${3}:${3} /home/${3}/.ssh/id_rsa*
-sudo  echo "${2}" | sshpass ssh-copy-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@"${1}"
+echo "${2}" | sshpass ssh-copy-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@"${1}"
 }
 
 install_ansible() {
