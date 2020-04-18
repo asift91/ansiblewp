@@ -37,11 +37,10 @@ echo "dbPassword is : ${4}" >> /home/${1}/var.txt
 sudo sed -i "s~wp_db_name: wordpress~wp_db_name: ${2}~" /home/${1}/wordpressplaybook/group_vars/all  >> /home/${1}/var.txt
 sudo sed -i "s~wp_db_user: wordpress~wp_db_user: ${3}~" /home/${1}/wordpressplaybook/group_vars/all  >> /home/${1}/var.txt 
 sudo sed -i "s~wp_db_password: password~wp_db_password: ${4}~" /home/${1}/wordpressplaybook/group_vars/all  >> /home/${1}/var.txt 
+sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${1}/var.txt
 ansible-playbook /home/${1}/wordpressplaybook/playbook.yml -i /etc/ansible/hosts -u ${1}
 }
 
-sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
-sudo systemctl restart ssh
 ssh_key_configuration ${1} ${2} ${3} >> /home/${3}/var.txt
 install_ansible >> /home/${3}/var.txt
 configure_ansible ${1} ${3} >> /home/${3}/var.txt
