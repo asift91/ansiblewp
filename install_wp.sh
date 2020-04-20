@@ -8,9 +8,9 @@ echo "dbusername is : ${5}" >> /home/${3}/var.txt
 echo "dbPassword is : ${6}" >> /home/${3}/var.txt
 
 ssh_key_configuration() {
-    sudo apt-get update  >> /home/${3}/var.txt
-    apt-cache search sshpass  >> /home/${3}/var.txt
-    echo "---------------------------------------------------------------------------" >> /home/${3}/var.txt
+sudo apt-get update  >> /home/${3}/var.txt
+apt-cache search sshpass  >> /home/${3}/var.txt
+echo "---------------------------------------------------------------------------" >> /home/${3}/var.txt
 sudo apt-get install sshpass  >> /home/${3}/var.txt
 apt-cache search sshpass  >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------" >> /home/${3}/var.txt
@@ -23,9 +23,12 @@ echo "--------------------------------------------------------------------------
 echo "Public Ip is : ${1}" >> /home/${3}/var.txt
 echo "Password is : ${2}" >> /home/${3}/var.txt
 echo "username is : ${3}" >> /home/${3}/var.txt
+echo "---------------------------------------------------------------------------"
 echo "before ssh-var-id command" >> /home/${3}/var.txt
+echo "---------------------------------------------------------------------------"
  # echo "${2}" | sshpass ssh-var-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
+echo "---------------------------------------------------------------------------"
 echo "after ssh-var-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------"
