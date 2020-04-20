@@ -26,8 +26,7 @@ echo "username is : ${3}" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "before ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
- # echo "${2}" | sshpass ssh-var-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
-sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
+sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "after ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
@@ -42,8 +41,8 @@ sudo apt-get install ansible -y
 }
 
 configure_ansible() {
+ #   sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config
 echo "Configure ansible Ip is : ${1}" >> /home/${2}/var.txt
-sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo chmod 777 /etc/ansible/hosts
 sudo echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
 ansible -m ping all >>  /home/${2}/var.txt
@@ -64,10 +63,10 @@ ansible-playbook /home/${1}/wordpressplaybook/playbook.yml -i /etc/ansible/hosts
 }
 
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
-sudo systemctl restart ssh
+#sudo systemctl restart ssh
 ssh_key_configuration ${1} ${2} ${3} >> /home/${3}/var.txt
 install_ansible >> /home/${3}/var.txt
 configure_ansible ${1} ${3} >> /home/${3}/var.txt
 wordpress_install ${3} ${4} ${5} ${6} >> /home/${3}/var.txt
-sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
+#sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo systemctl restart ssh
