@@ -42,12 +42,11 @@ sudo apt-get install ansible -y
 }
 
 configure_ansible() {
-    cd /home/${1}
 echo "Configure ansible Ip is : ${1}" >> /home/${2}/var.txt
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo chmod 777 /etc/ansible/hosts
 sudo echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
-ansible -m ping all >> /home/${2}/var.txt
+ansible -m ping all >>  /home/${2}/var.txt
 sudo chown -R ${2}:${2} /home/${2}/.ansible/cp
 }
 
