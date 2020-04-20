@@ -36,6 +36,7 @@ install_ansible() {
 sudo apt-add-repository ppa:ansible/ansible -y
 sudo apt-get update
 sudo apt-get install ansible -y
+echo "---------------------------------------------------------------------------"
 }
 
 configure_ansible() {
@@ -43,6 +44,7 @@ configure_ansible() {
 echo "Configure ansible Ip is : ${1}" >> /home/${2}/var.txt
 sudo chmod 777 /etc/ansible/hosts
 sudo echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
+echo "---------------------------------------------------------------------------"
 ansible -m ping all >>  /home/${2}/var.txt
 sudo chown -R ${2}:${2} /home/${2}/.ansible/cp
 }
