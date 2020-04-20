@@ -25,7 +25,7 @@ echo "Password is : ${2}" >> /home/${3}/var.txt
 echo "username is : ${3}" >> /home/${3}/var.txt
 echo "before ssh-var-id command" >> /home/${3}/var.txt
  # echo "${2}" | sshpass ssh-var-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
-sudo sshpass -p "${2}" ssh-var-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
+sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 echo "after ssh-var-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------"
