@@ -24,12 +24,12 @@ echo "Public Ip is : ${1}" >> /home/${3}/var.txt
 echo "Password is : ${2}" >> /home/${3}/var.txt
 echo "username is : ${3}" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
-echo "before ssh-var-id command" >> /home/${3}/var.txt
+echo "before ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
  # echo "${2}" | sshpass ssh-var-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
-echo "after ssh-var-id command" >> /home/${3}/var.txt
+echo "after ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------"
 
@@ -42,10 +42,12 @@ sudo apt-get install ansible -y
 }
 
 configure_ansible() {
-sudo chown -R ${2}:${2} /home/${2}/.ansible/cp
 echo "Configure ansible Ip is : ${1}" >> /home/${2}/var.txt
+sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo chmod 777 /etc/ansible/hosts
 sudo echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
+ansible -m ping all >> /home/${2}/var.txt
+sudo chown -R ${2}:${2} /home/${2}/.ansible/cp
 }
 
 wordpress_install() {
