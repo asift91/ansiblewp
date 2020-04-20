@@ -12,9 +12,13 @@ sudo apt-get install sshpass
 sudo ssh-keygen -t rsa -N '' -f /home/${3}/.ssh/id_rsa <<< y
 echo "---------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------"
-echo "before ssh-copy-id command"
-  echo "${2}" | sshpass ssh-copy-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1}
-echo "after ssh-copy-id command"
+echo "Public Ip is : ${1}" >> /home/${3}/var.txt
+echo "Password is : ${2}" >> /home/${3}/var.txt
+echo "username is : ${3}" >> /home/${3}/var.txt
+echo "before ssh-copy-id command" >> /home/${3}/copy.txt
+ # echo "${2}" | sshpass ssh-copy-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/copy.txt
+sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/copy.txt
+echo "after ssh-copy-id command" >> /home/${3}/copy.txt
 echo "---------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------"
  sudo chown ${3}:${3} /home/${3}/.ssh/id_rsa*
