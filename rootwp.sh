@@ -15,9 +15,6 @@ echo "--------------------------------------------------------------------------
 mkdir .ssh
 ssh-keygen -t rsa -N '' -f .ssh/id_rsa <<< y
 echo "---------------------------------------------------------------------------" >> var.txt
-echo "Changing permissions for id_rsa" >> var.txt
- #sudo chown ${3}:${3} .ssh/id_rsa* >> var.txt
-echo "---------------------------------------------------------------------------"
 echo "before ssh-copy-id command" >> var.txt
 echo "---------------------------------------------------------------------------"
   echo "${2}" | sshpass ssh-copy-id -f -i .ssh/id_rsa.pub ${3}@${1} >> var.txt
