@@ -19,8 +19,8 @@ echo "Changing permissions for id_rsa" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "before ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
- # echo "${2}" | sshpass ssh-var-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
-sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
+ echo "${2}" | sshpass ssh-copy-id -f -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
+#sudo sshpass -p "${2}" ssh-copy-id -i /home/${3}/.ssh/id_rsa.pub ${3}@${1} >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
 echo "after ssh-copy-id command" >> /home/${3}/var.txt
 echo "---------------------------------------------------------------------------"
@@ -35,7 +35,7 @@ sudo apt-get install ansible -y
 
 configure_ansible() {
 echo "Configure ansible Ip is : ${1}" >> /home/${2}/var.txt
-sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
+sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${2}/var.txt
 sudo chmod 777 /etc/ansible/hosts
 sudo echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
 #sudo chown -R ${2}:${2} /home/${2}/.ansible/cp
