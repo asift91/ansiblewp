@@ -3,8 +3,10 @@ echo "User ID is : ${1}" >> log.txt
 
 clonerepo(){
 cd /home/${1}/ 
-git clone https://github.com/asift91/ansiblewp.git  
-sudo chown -R ${1}:${1} /home/{1}/ansiblewp
+wget https://raw.githubusercontent.com/asift91/ansiblewp/master/install_wp.sh  
+
+sudo chown -R ${1}:${1} /home/${1}/install_wp.sh
+#sudo chown -R azureadmin:azureadmin /home/azureadmin/install_wp.sh
 }
 
 clonerepo ${1} >> log.txt
