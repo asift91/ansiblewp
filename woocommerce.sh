@@ -5,7 +5,7 @@ downloadwoocommerce(){
 }
 
 extractfile(){
-  tar xvf woocommerce.4.0.1.zip -C /var/www/html/$7/wp-content/plugin
+  tar xvf woocommerce.4.0.1.zip -C /var/www/html/domain/wp-content/plugin
 }
 
 downloadwoocommerce
