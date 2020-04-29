@@ -1,7 +1,7 @@
 #!bin/bash
 
 downloadwoocommerce(){
-  wget -p /home/italent/https://downloads.wordpress.org/plugin/woocommerce.4.0.1.zip
+  wget -p https://downloads.wordpress.org/plugin/woocommerce.4.0.1.zip /home/italent/
 }
 
 extractfile(){
