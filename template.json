@@ -12,7 +12,6 @@
             }
         },
         "adminUsername": {
-            "defaultValue": "azureadmin",
             "type": "String",
             "metadata": {
                 "description": "Username for the Virtual Machine."
@@ -29,22 +28,16 @@
                 "description": "Type of authentication to use on the Virtual Machine. SSH key is recommended."
             }
         },
-        "adminPasswordOrKey": {
+        "sshPublicKey": {
             "type": "SecureString",
             "metadata": {
                 "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."
             }
         },
-        "WordpressRemoteVM":{
-            "type":"string",
-            "metadata":{
-                "description": "Provide Controller VM IP to install ansible"
-            }
-        },
-        "remoteVMPassword": {
-            "type":"securestring",
-            "metadata":{
-                "description": "Provide Controller VM IP password."
+        "ApplicationDomainName": {
+            "type": "string",
+            "metadata": {
+                "description": "Domain name for the web application."
             }
         },
         "ubuntuOSVersion": {
@@ -65,24 +58,6 @@
                 "description": "The size of the VM (DS1_v2, 1vcpu, 3.5GB)."
             }
         },
-        "databaseServerName": {
-            "type": "string",
-            "metadata": {
-                "description": "Database server name of Remote VM."
-            }
-        },
-        "ServerAdminLoginName": {
-            "type": "string",
-            "metadata": {
-                "description": "Database server Admin login name."
-            }
-        },
-        "ServerAdminLoginPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Database server Admin login Password."
-            }
-        },
         "location": {
             "defaultValue": "East US",
             "type": "String",
@@ -92,7 +67,6 @@
         }
     },
     "variables": {
-        "scriptinput": "[concat(parameters('WordpressRemoteVM'), ' ',parameters('remoteVMPassword'), ' ', parameters('adminUsername'), ' ', parameters('databaseServerName'), ' ', parameters('ServerAdminLoginName'), ' ', parameters('ServerAdminLoginPassword'))]",
         "resourceprefix": "[substring(uniqueString(resourceGroup().id, deployment().name), 3, 6)]",
         "ansibleVmSku": "[parameters('ansibleVmSku')]",
         "ansibleNicName": "[concat('ansible-nic-',variables('resourceprefix'))]",
@@ -112,7 +86,7 @@
                 "publicKeys": [
                     {
                         "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                        "keyData": "[parameters('adminPasswordOrKey')]"
+                        "keyData": "[parameters('sshPublicKey')]"
                     }
                 ]
             }
@@ -288,7 +262,7 @@
                 "osProfile": {
                     "computerName": "[variables('ansibleVmName')]",
                     "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPasswordOrKey')]",
+                    "adminPassword": "[parameters('sshPublicKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
                 }
             }
@@ -308,11 +282,11 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/asift91/ansiblewp/master/install_wp.sh"
+                        "https://raw.githubusercontent.com/asift91/ansiblewp/master/main.sh"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('bash install_wp.sh ', variables('scriptinput'))]"
+                    "commandToExecute": "[concat('bash main.sh ', parameters('adminUsername'), ' ', parameters('ApplicationDomainName'))]"
                 }
             }
         }
