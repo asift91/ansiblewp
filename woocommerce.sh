@@ -1,15 +1,14 @@
 #!/bin/bash
 downloadwoocommerce(){
-  wget -p https://downloads.wordpress.org/plugin/woocommerce.4.0.1.zip /home/azureadmin/
+  wget -p https://downloads.wordpress.org/plugin/woocommerce.4.0.1.zip /home/${1}/
 }
 
 extractfile(){
-  echo "domain_name ${1}" >>/home/azureadmin/log.txt
+  echo "domain_name ${1}" >>/home/${2}/log.txt
   sudo apt install unzip
-  #cd /home/azureadmin/downloads.wordpress.org/plugin/
-  sudo unzip /home/azureadmin/downloads.wordpress.org/plugin/woocommerce.4.0.1.zip
-  sudo cp -rf /home/azureadmin/woocommerce /var/www/html/wordpress/wp-content/plugins/
-  sudo rm -rf /home/azureadmin/woocommerce
+  sudo unzip /home/${2}/downloads.wordpress.org/plugin/woocommerce.4.0.1.zip
+  sudo cp -rf /home/${2}/woocommerce /var/www/html/wordpress/wp-content/plugins/
+  sudo rm -rf /home/${2}/woocommerce
 }
-downloadwoocommerce
-extractfile ${1}
+downloadwoocommerce ${2}
+extractfile ${1} ${2} 
