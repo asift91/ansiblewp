@@ -8,7 +8,7 @@ change_location() {
 configuring_certs() {
     echo "certs func"
     sudo mkdir /azlamp/certs/${1}
-    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /azlamp/certs/${1}/nginx.key -out /azlamp/certs/${1}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=wptest.com"
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /azlamp/certs/${1}/nginx.key -out /azlamp/certs/${1}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=${1}"
     sudo chown www-data:www-data /azlamp/certs/${1}/nginx.*
     sudo chmod 400 /azlamp/certs/${1}/nginx.*
 
