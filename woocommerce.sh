@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 downloadwoocommerce(){
   wget -p https://downloads.wordpress.org/plugin/woocommerce.4.0.1.zip /home/azureadmin/
 }
