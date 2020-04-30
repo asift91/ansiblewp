@@ -39,5 +39,5 @@ replication() {
 change_location ${1}
 configuring_certs ${1}
 linking_data_location ${1}
-update_nginx_configurationt
+update_nginx_configuration
 replication 
