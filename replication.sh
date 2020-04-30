@@ -36,8 +36,8 @@ replication() {
 }
 
 # ${1} value is a domain name which will update in runtime
-change_location ${1}>>/home/azureadmin/copy.txt
-configuring_certs ${1}>>/home/azureadmin/copy.txt
-linking_data_location ${1}>>/home/azureadmin/copy.txt
-update_nginx_configuration >>/home/azureadmin/copy.txt
-replication >>/home/azureadmin/copy.txt
+change_location ${1}
+configuring_certs ${1}
+linking_data_location ${1}
+update_nginx_configurationt
+replication 
