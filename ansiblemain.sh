@@ -18,4 +18,4 @@ EOF
 sudo chown -R "${1}":"${1}" /home/"${1}"/run.sh
 }
 clonerepo ${1} >> /home/"${1}"/log.txt
-createrunscript ${1} ${decode_input} >> /home/"${1}"/log.txt
+createrunscript ${1} ${2} >> /home/"${1}"/log.txt
