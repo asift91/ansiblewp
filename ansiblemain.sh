@@ -15,8 +15,6 @@ clonerepo ${1} >> /home/"${1}"/log.txt
 
   cat <<EOF > /home/"${1}"/run.sh
   #!/bin/bash
-  bash /home/${1}/wordpressinstall.sh ${2}
+  bash /home/${1}/wordpressinstall.sh ${decotext}
 EOF
 sudo chown -R "${1}":"${1}" /home/"${1}"/run.sh
-
-createrunscript ${1} ${decotext} >> /home/"${1}"/log.txt
