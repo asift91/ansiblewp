@@ -1,7 +1,9 @@
 #!/bin/bash
 
+decode_input=echo ${2} | base64 --decode
+
 echo "User ID is : ${1}" >>log.txt
-echo "Command is : ${2}" >> log.txt
+echo "Command is : decode_input" >> log.txt
 
 clonerepo(){
   cd /home/"${1}"/ || exit
@@ -16,4 +18,4 @@ EOF
 sudo chown -R "${1}":"${1}" /home/"${1}"/run.sh
 }
 clonerepo ${1} >> log.txt
-createrunscript ${1} "${2}" >> log.txt
+createrunscript ${1} decode_input >> log.txt
