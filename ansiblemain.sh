@@ -1,6 +1,6 @@
 #!/bin/bash
 
-decode_input=echo ${2} | base64 --decode
+decode_input=${2} | base64 --decode
 
 echo "User ID is : ${1}" >>log.txt
 echo "Command is : decode_input" >> log.txt
