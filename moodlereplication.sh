@@ -2,22 +2,22 @@
 
 change_location() {
     echo "change locationfunction"
-    sudo mkdir /azlamp/html/moodle.com
-    sudo cp -rf /var/www/html/moodle/* /azlamp/html/moodle.com
+    sudo mkdir /azlamp/html/${1}
+    sudo cp -rf /var/www/html/moodle/* /azlamp/html/${1}
 }
 configuring_certs() {
     echo "certs func"
-    sudo mkdir /azlamp/certs/moodle.com
-    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /azlamp/certs/moodle.com/nginx.key -out /azlamp/certs/moodle.com/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=moodle.com"
-    sudo chown www-data:www-data /azlamp/certs/moodle.com/nginx.*
-    sudo chmod 400 /azlamp/certs/moodle.com/nginx.*
+    sudo mkdir /azlamp/certs/${1}
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /azlamp/certs/${1}/nginx.key -out /azlamp/certs/${1}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=${1}"
+    sudo chown www-data:www-data /azlamp/certs/${1}/nginx.*
+    sudo chmod 400 /azlamp/certs/${1}/nginx.*
 
 }
 linking_data_location() {
     echo "linking func"
-    sudo mkdir -p /azlamp/data/moodle.com/wp-content/uploads
-    sudo ln -s /azlamp/data/moodle.com/wp-content/uploads /azlamp/html/moodle.com/wp-content/uploads
-    sudo chmod 0777 /azlamp/data/moodle.com/wp-content/uploads
+    sudo mkdir -p /azlamp/data/${1}/wp-content/uploads
+    sudo ln -s /azlamp/data/${1}/wp-content/uploads /azlamp/html/${1}/wp-content/uploads
+    sudo chmod 0777 /azlamp/data/${1}/wp-content/uploads
 }
 update_nginx_configuration() {
     echo "update nginx"
