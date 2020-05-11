@@ -26,7 +26,7 @@ update_nginx_configuration() {
     sudo sed -i "s~#    . /azlamp/bin/utils.sh~   . /azlamp/bin/utils.sh~" /azlamp/bin/update-vmss-config
     sudo sed -i "s~#    reset_all_sites_on_vmss true VMSS~    reset_all_sites_on_vmss true VMSS~" /azlamp/bin/update-vmss-config
     sudo sed -i "s~#;;~;;~" /azlamp/bin/update-vmss-config
-    #echo "sleep for 30 seconds"
+    echo "sleep for 30 seconds"
     sleep 30
 }
 replication() {
