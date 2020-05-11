@@ -29,7 +29,7 @@ moodle_install() {
   sudo sed -i "s~dbpass: dbpassword~dbpass: ${6}~" /home/${3}/ansible_playbook/group_vars/all >> /home/${3}/var.txt
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all >> /home/${3}/var.txt
   
-  #ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
+  ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
 
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
