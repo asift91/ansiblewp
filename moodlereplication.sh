@@ -31,6 +31,8 @@ update_nginx_configuration() {
 }
 replication() {
     echo "replication func"
+    sudo mkdir /var/www/html/moodledata
+    chowm www-data:www-data -R /var/www/html/moodledata
     cd /usr/local/bin/
     sudo bash update_last_modified_time.azlamp.sh
 }
