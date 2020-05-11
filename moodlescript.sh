@@ -16,7 +16,7 @@ moodle_install() {
   sudo apt-get update
   sudo apt-get install ansible -y
   
-  chmod 777 /etc/ansible/hosts
+  sudo chmod 777 /etc/ansible/hosts
   echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
   sudo sed -i "s~domain_name: domain~domain_name: ${4}~" /home/${3}/ansible_playbook/group_vars/all >> /home/${3}/var.txt
   sudo sed -i "s~user_name: azusername~user_name: ${3}~" /home/${3}/ansible_playbook/group_vars/all  >> /home/${3}/var.txt
