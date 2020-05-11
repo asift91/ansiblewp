@@ -16,8 +16,8 @@ configuring_certs() {
 }
 linking_data_location() {
     echo "linking func"
-    sudo mkdir -p /azlamp/data/${1}/mdl-content/uploads
-    sudo ln -s /azlamp/data/${1}/mdl-content/uploads /azlamp/html/${1}/mdl-content/uploads
+    sudo mkdir -p /azlamp/data/${1}/uploads
+    sudo ln -s /azlamp/data/${1}/uploads /azlamp/html/${1}/uploads
     sudo chmod 0777 /azlamp/data/${1}/mdl-content/uploads
 }
 update_nginx_configuration() {
