@@ -8,13 +8,13 @@ echo "decoded text : ${decotext}" >> /home/"${1}"/log.txt
 
 clonerepo(){
   cd /home/"${1}"/ 
-  wget https://raw.githubusercontent.com/sayosh0512/ansibles-wordpress-script/master/moodleinstall.sh
-  sudo chown -R "${1}":"${1}" /home/"${1}"/moodleinstall.sh
+  wget https://raw.githubusercontent.com/sayosh0512/ansibles-wordpress-script/master/wordpressinstall.sh
+  sudo chown -R "${1}":"${1}" /home/"${1}"/wordpressinstall.sh
 }
 clonerepo ${1} >> /home/"${1}"/log.txt
 
   cat <<EOF > /home/"${1}"/run.sh
   #!/bin/bash
-  bash /home/${1}/moodleinstall.sh ${decotext}
+  bash /home/${1}/wordpressinstall.sh ${decotext}
 EOF
 sudo chown -R "${1}":"${1}" /home/"${1}"/run.sh
