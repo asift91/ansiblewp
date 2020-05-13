@@ -37,6 +37,6 @@ moodle_install() {
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo systemctl restart ssh
 setup_ansible ${1} 
-moodle_install ${1} ${2} ${3} ${4} ${5} ${6} ${7} >> /home/${3}/var.txt
+moodle_install ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} >> /home/${3}/var.txt
 sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo systemctl restart ssh
