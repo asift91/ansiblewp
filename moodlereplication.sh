@@ -29,10 +29,19 @@ update_nginx_configuration() {
     echo "sleep for 30 seconds"
     sleep 30
 }
+
+moodledata_config()
+{
+    sudo mkdir /var/www/html/moodle
+    sudo chmod 777 /var/www/html/moodle
+    sudo mkdir /var/www/html/moodle/moodledata
+}
+
 replication() {
     echo "replication func"
     cd /usr/local/bin/
     sudo bash update_last_modified_time.azlamp.sh
+   
 }
 
 # ${1} value is a domain name which will update in runtime
@@ -40,4 +49,5 @@ change_location ${1}
 configuring_certs ${1}
 linking_data_location ${1}
 update_nginx_configuration
+moodledata_config
 replication
