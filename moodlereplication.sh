@@ -32,8 +32,9 @@ update_nginx_configuration() {
 moodledata_config()
 {
     sudo mkdir /azlamp/html/lamp
-    sudo chmod 777 /azlamp/html/lamp
     sudo mkdir /azlamp/html/lamp/moodledata
+    sudo chmod 777 /azlamp/html/lamp
+    sudo chown www-data:www-data -R /azlamp/html/lamp/
 }
 replication() {
     echo "replication func"
