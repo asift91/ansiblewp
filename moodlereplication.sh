@@ -33,7 +33,7 @@ moodledata_config()
 {
     sudo mkdir /azlamp/html/lamp
     sudo chmod 777 /azlamp/html/lamp
-    sudo mkdir /azlamp/html/lmap/moodledata
+    sudo mkdir /azlamp/html/lamp/moodledata
 }
 replication() {
     echo "replication func"
