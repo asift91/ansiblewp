@@ -20,6 +20,7 @@ moodle_install() {
   echo "dbusername is : ${5}" >> /home/${3}/var.txt
   echo "dbPassword is : ${6}" >> /home/${3}/var.txt
   echo "domain_name is : ${7}" >> /home/${3}/var.txt
+  echo "load balancer ip : ${8}" >> /home/${3}/var.txt
   
   sudo sed -i "s~vm_ip: IP~vm_ip: ${1}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~vm_password: password~vm_password: ${2}~" /home/${3}/ansible_playbook/group_vars/all
@@ -28,6 +29,7 @@ moodle_install() {
   sudo sed -i "s~dbuser    = 'db_username';~dbuser    = '${5}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
   sudo sed -i "s~dbpass    = 'db_password';~dbpass    = '${6}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
+  sudo sed -i "s~wwwroot   = 'http';~wwwroot   = 'http://${8}';~" /home/${3}/ansible_playbook/roles/moodle/templates/config.php
   
   ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
