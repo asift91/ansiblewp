@@ -30,6 +30,7 @@ moodle_install() {
   sudo sed -i "s~dbpass    = 'db_password';~dbpass    = '${6}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~wwwroot   = 'http';~wwwroot   = 'http://${8}';~" /home/${3}/ansible_playbook/roles/moodle/templates/config.php
+  sudo sed -i "s~mysql -h $servername -u $adminlogin -p${adminpassword} -e "CREATE DATABASE ${databasename} CHARACTER SET utf8;"~mysql -h ${4} -u {5}-p${6} -e "CREATE DATABASE moodledb CHARACTER SET utf8;"~" /home/${3}/ansible_playbook/roles/moodle/tasks/main.yml
   
   ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
