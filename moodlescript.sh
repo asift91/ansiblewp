@@ -25,12 +25,11 @@ moodle_install() {
   sudo sed -i "s~vm_ip: IP~vm_ip: ${1}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~vm_password: password~vm_password: ${2}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~user_name: azusername~user_name: ${3}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbhost    = 'localhost';~dbhost    = '${4}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
-  sudo sed -i "s~dbuser    = 'db_username';~dbuser    = '${5}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
-  sudo sed -i "s~dbpass    = 'db_password';~dbpass    = '${6}';~" /home/azureadmin/ansible_playbook/roles/moodle/templates/config.php
+  sudo sed -i "s~dbservername: localhost~dbservername: '${4}';~" /home/azureadmin/ansible_playbook/group_vars/all
+  sudo sed -i "s~dbusername: dbname~dbusername: '${5}';~" /home/azureadmin/ansible_playbook/roles/group_vars/all
+  sudo sed -i "s~dbPassword: dbpass~dbPassword: '${6}';~" /home/azureadmin/ansible_playbook/roles/group_vars/all
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~wwwroot   = 'http';~wwwroot   = 'http://${8}';~" /home/${3}/ansible_playbook/roles/moodle/templates/config.php
-  sudo sed -i "s~mysql -h $servername -u $adminlogin -p${adminpassword} -e "CREATE DATABASE ${databasename} CHARACTER SET utf8;"~mysql -h ${4} -u {5}-p${6} -e "CREATE DATABASE moodledb CHARACTER SET utf8;"~" /home/${3}/ansible_playbook/roles/moodle/tasks/main.yml
   
   ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
