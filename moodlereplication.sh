@@ -4,6 +4,7 @@ change_location() {
     echo "change locationfunction"
     sudo mkdir /azlamp/html/${1}
     sudo cp -rf /var/www/html/moodle/* /azlamp/html/${1}
+    sudo cp -rf /var/www/html/lamp/* /azlamp/html/${1}
 }
 configuring_certs() {
     echo "certs func"
