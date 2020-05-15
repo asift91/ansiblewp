@@ -25,9 +25,9 @@ moodle_install() {
   sudo sed -i "s~vm_ip: IP~vm_ip: ${1}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~vm_password: password~vm_password: ${2}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~user_name: azusername~user_name: ${3}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbservername: localhost~dbservername: '${4}';~" /home/azureadmin/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbusername: dbname~dbusername: '${5}';~" /home/azureadmin/ansible_playbook/roles/group_vars/all
-  sudo sed -i "s~dbPassword: dbpass~dbPassword: '${6}';~" /home/azureadmin/ansible_playbook/roles/group_vars/all
+  sudo sed -i "s~dbservername: localhost~dbservername: ${4}~" /home/${3}/ansible_playbook/group_vars/all
+  sudo sed -i "s~dbusername: dbname~dbusername: ${5}~" /home/${3}/ansible_playbook/group_vars/all
+  sudo sed -i "s~dbpassword: dbpass~dbpassword: ${6}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~wwwroot   = 'http';~wwwroot   = 'http://${8}';~" /home/${3}/ansible_playbook/roles/moodle/templates/config.php
   
