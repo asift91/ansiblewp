@@ -31,7 +31,7 @@ moodle_install() {
   sudo sed -i "s~dbusername: dbname~dbusername: ${5}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~dbpassword: dbpass~dbpassword: ${6}~" /home/${3}/ansible_playbook/group_vars/all
   sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~wwwroot   = 'http';~wwwroot   = 'http://${8}';~" /home/${3}/ansible_playbook/roles/moodle/templates/config.php
+  sudo sed -i "s~lbip: ip;~lbip: ${8}~" /home/${3}/ansible_playbook/group_vars/all
   
   ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
