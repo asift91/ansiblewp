@@ -1,4 +1,6 @@
 #!/bin/bash
+log_path=/home/${3}/var.txt
+vars_path=/home/${3}/ansible_playbook/group_vars/all
 
 setup_ansible(){
   sudo apt-add-repository ppa:ansible/ansible -y
@@ -8,38 +10,37 @@ setup_ansible(){
 configure_ansible_inventory(){
   sudo chmod 777 /etc/ansible/hosts
   echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
-  echo -e "[dbservers]\n${2}" >>/etc/ansible/hosts
 }
 
 moodle_install() {
   cd /home/${3}
   git clone https://github.com/asift91/ansible_playbook.git
     
-  echo "vm_ip is : ${1}" >> /home/${3}/var.txt
-  echo "vm_password is : ${2}" >> /home/${3}/var.txt
-  echo "username is : ${3}" >> /home/${3}/var.txt
-  echo "dbservername is : ${4}" >> /home/${3}/var.txt
-  echo "dbusername is : ${5}" >> /home/${3}/var.txt
-  echo "dbPassword is : ${6}" >> /home/${3}/var.txt
-  echo "domain_name is : ${7}" >> /home/${3}/var.txt
-  echo "load balancer ip : ${8}" >> /home/${3}/var.txt
+  echo "vm_ip is : ${1}" >> ${log_path}
+  echo "vm_password is : ${2}" >> ${log_path}
+  echo "username is : ${3}" >> ${log_path}
+  echo "dbservername is : ${4}" >> ${log_path}
+  echo "dbusername is : ${5}" >> ${log_path}
+  echo "dbPassword is : ${6}" >> ${log_path}
+  echo "domain_name is : ${7}" >> ${log_path}
+  echo "load balancer ip : ${8}" >> ${log_path}
   
-  sudo sed -i "s~vm_ip: IP~vm_ip: ${1}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~vm_password: password~vm_password: ${2}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~user_name: azusername~user_name: ${3}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbservername: localhost~dbservername: ${4}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbusername: dbname~dbusername: ${5}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~dbpassword: dbpass~dbpassword: ${6}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~domain_name: domain~domain_name: ${7}~" /home/${3}/ansible_playbook/group_vars/all
-  sudo sed -i "s~lbip: ip~lbip: ${8}~" /home/${3}/ansible_playbook/group_vars/all
+  sudo sed -i "s~vm_ip: IP~vm_ip: ${1}~" ${vars_path}
+  sudo sed -i "s~vm_password: password~vm_password: ${2}~" ${vars_path}
+  sudo sed -i "s~user_name: azusername~user_name: ${3}~" ${vars_path}
+  sudo sed -i "s~dbservername: localhost~dbservername: ${4}~" ${vars_path}
+  sudo sed -i "s~dbusername: dbname~dbusername: ${5}~" ${vars_path}
+  sudo sed -i "s~dbpassword: dbpass~dbpassword: ${6}~" ${vars_path}
+  sudo sed -i "s~domain_name: domain~domain_name: ${7}~" ${vars_path}
+  sudo sed -i "s~lbip: ip~lbip: ${8}~" ${vars_path}
   
   ansible-playbook /home/${3}/ansible_playbook/playbook.yml -i /etc/ansible/hosts -u ${3}
 }
 
-sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
+sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> ${log_path}
 sudo systemctl restart ssh
 setup_ansible
 configure_ansible_inventory ${1} ${4}
-moodle_install ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} >> /home/${3}/var.txt
-sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
+moodle_install ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} ${log_path} >> ${log_path}
+sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> ${log_path}
 sudo systemctl restart ssh
