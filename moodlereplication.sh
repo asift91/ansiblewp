@@ -1,41 +1,45 @@
 #!/bin/bash
+webroot=/var/www/html
+repli_path=/azlamp/html/${1}
+repli_certs=/azlamp/certs/${1}
+repli_data=/azlamp/data/${1}
+repli_bin=/azlamp/bin
+moodledata_path=/azlamp/html/datadir
 
 change_location() {
     echo "change locationfunction"
-    sudo mkdir /azlamp/html/${1}
-    sudo cp -rf /var/www/html/moodle/* /azlamp/html/${1}
-    sudo cp -rf /var/www/html/lamp/* /azlamp/html/${1}
+    sudo mkdir ${repli_path}
+    sudo cp -rf ${webroot}/moodle/* ${repli_path}
 }
 configuring_certs() {
     echo "certs func"
-    sudo mkdir /azlamp/certs/${1}
-    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /azlamp/certs/${1}/nginx.key -out /azlamp/certs/${1}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=${1}"
-    sudo chown www-data:www-data /azlamp/certs/${1}/nginx.*
-    sudo chmod 400 /azlamp/certs/${1}/nginx.*
+    sudo mkdir repli_certs
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ${repli_certs}/nginx.key -out ${repli_certs}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=${1}"
+    sudo chown www-data:www-data ${repli_certs}/nginx.*
+    sudo chmod 400 ${repli_certs}/nginx.*
 
 }
 linking_data_location() {
     echo "linking func"
-    sudo mkdir -p /azlamp/data/${1}/uploads
-    sudo ln -s /azlamp/data/${1}/uploads /azlamp/html/${1}/uploads
-    sudo chmod 0777 /azlamp/data/${1}/uploads
+    sudo mkdir -p ${repli_data}/wp-content/uploads
+    sudo ln -s ${repli_data}/wp-content/uploads ${repli_path}/wp-content/uploads
+    sudo chmod 0777 ${repli_data}/wp-content/uploads
 }
 update_nginx_configuration() {
     echo "update nginx"
-    cd /azlamp/bin/
-    sudo sed -i "s~#1)~1)~" /azlamp/bin/update-vmss-config
-    sudo sed -i "s~#    . /azlamp/bin/utils.sh~   . /azlamp/bin/utils.sh~" /azlamp/bin/update-vmss-config
-    sudo sed -i "s~#    reset_all_sites_on_vmss true VMSS~    reset_all_sites_on_vmss true VMSS~" /azlamp/bin/update-vmss-config
-    sudo sed -i "s~#;;~;;~" /azlamp/bin/update-vmss-config
-    echo "sleep for 30 seconds"
+    cd ${repli_bin}/
+    sudo sed -i "s~#1)~1)~" ${repli_bin}/update-vmss-config
+    sudo sed -i "s~#    . /azlamp/bin/utils.sh~   . /azlamp/bin/utils.sh~" ${repli_bin}/update-vmss-config
+    sudo sed -i "s~#    reset_all_sites_on_vmss true VMSS~    reset_all_sites_on_vmss true VMSS~" ${repli_bin}/update-vmss-config
+    sudo sed -i "s~#;;~;;~" ${repli_bin}/update-vmss-config
+    #echo "sleep for 30 seconds"
     sleep 30
 }
-moodledata_config()
-{
-    sudo mkdir /azlamp/html/lamp
-    sudo mkdir /azlamp/html/lamp/moodledata
-    sudo chmod 777 /azlamp/html/lamp
-    sudo chown www-data:www-data -R /azlamp/html/lamp/
+create_moodledata(){
+    sudo mkdir ${moodledata_path}
+    sudo mkdir ${moodledata_path}/moodledata
+    sudo chmod 777 ${moodledata_path}/
+    sudo chown www-data:www-data -R ${moodledata_path}/
 }
 replication() {
     echo "replication func"
@@ -44,9 +48,9 @@ replication() {
 }
 
 # ${1} value is a domain name which will update in runtime
-change_location ${1}
+change_location
 configuring_certs ${1}
-linking_data_location ${1}
+linking_data_location 
 update_nginx_configuration
-moodledata_config
-replication
+create_moodledata
+replication 
