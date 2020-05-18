@@ -4,9 +4,11 @@ setup_ansible(){
   sudo apt-add-repository ppa:ansible/ansible -y
   sudo apt-get update
   sudo apt-get install ansible -y
-  
+}
+configure_ansible_inventory(){
   sudo chmod 777 /etc/ansible/hosts
   echo -e "[webservers]\n${1}" >>/etc/ansible/hosts
+  echo -e "[dbservers]\n${2}" >>/etc/ansible/hosts
 }
 
 moodle_install() {
@@ -36,7 +38,8 @@ moodle_install() {
 
 sudo sed -i "s~#   StrictHostKeyChecking ask~   StrictHostKeyChecking no~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo systemctl restart ssh
-setup_ansible ${1} 
+setup_ansible
+configure_ansible_inventory ${1} ${4}
 moodle_install ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} >> /home/${3}/var.txt
 sudo sed -i "s~   StrictHostKeyChecking no~#   StrictHostKeyChecking ask~" /etc/ssh/ssh_config  >> /home/${3}/var.txt
 sudo systemctl restart ssh
