@@ -13,7 +13,7 @@ change_location() {
 }
 configuring_certs() {
     echo "certs func"
-    sudo mkdir repli_certs
+    sudo mkdir ${repli_certs}
     sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ${repli_certs}/nginx.key -out ${repli_certs}/nginx.crt -subj "/C=US/ST=WA/L=Redmond/O=IT/CN=${1}"
     sudo chown www-data:www-data ${repli_certs}/nginx.*
     sudo chmod 400 ${repli_certs}/nginx.*
